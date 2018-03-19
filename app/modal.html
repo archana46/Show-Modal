@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+<form>
+  <label for="Reply">Reply</label>
+    <input id="reply_text" type="text" name="Reply">
+    <button id ="reply_button" type="submit"> submit </button>
+</form>
+<script>
+$(document).ready(function(){
+	app.initialized()
+	.then(function(_client){
+		var client=_client;
+		client.instance.context()
+		.then(function(context)  {
+       		// console.log(context);
+  		});
+
+		    $('#reply_button').click(function(){
+		        console.log('reply reply_button clicked');
+		        var texttobesent = $('#reply_text').val();
+		        console.log('texttobesent',texttobesent);
+		        var options = {
+                            headers: 
+                            {
+                                "Authorization": "Basic cHJrbGh3a2RPOUkxZGxWR3l1Zw==",
+                                "content-type":"application/json"
+                            },
+                            body: JSON.stringify({
+                                "body": texttobesent
+                                      
+                            })
+                        }
+                            var url = 'https://ducky.freshdesk.com/api/v2/tickets/5/reply';
+                            console.log('ticketid url:', url);
+                             client.request.post(url, options)
+                             .then(function(replysuccess) {
+                          	    console.log('replysuccess:',replysuccess);
+                             },
+                             function (replyerr) {
+                                 console.log('replyerr',replyerr);
+                             })
+
+		    });
+	})
+})
+
+</script>
+
+</body>
+</html>
+
